@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
@@ -14,34 +14,7 @@ export class App extends Component {
     filter: '',
   };
 
-  componentDidMount() {
-    // Check if contacts are saved in localStorage
-    const savedContacts = localStorage.getItem('contacts');
-    if (savedContacts) {
-      // If yes, update the state with these contacts
-      this.setState({ contacts: JSON.parse(savedContacts) });
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    // Check if current contacts are different from the previous state
-    if (prevState.contacts !== this.state.contacts) {
-      // If they are different, save the current contacts to localStorage
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
-
   addContact = newContact => {
-    const { contacts } = this.state;
-    const duplicateContact = contacts.find(
-      contact => contact.name === newContact.name
-    );
-
-    if (duplicateContact) {
-      alert(`${newContact.name} is already in your contacts.`);
-      return;
-    }
-
     this.setState(prevState => ({
       contacts: [...prevState.contacts, newContact],
     }));
@@ -79,7 +52,6 @@ export class App extends Component {
         <ContactList
           filterContact={this.filterContact}
           deleteContact={this.deleteContact}
-          contacts={contacts}
         />
       </div>
     );
